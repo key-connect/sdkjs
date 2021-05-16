@@ -1,0 +1,4465 @@
+= Key Connect API
+manthan@keyconnect.app
+1.1.0
+:toc: left
+:numbered:
+:toclevels: 3
+:source-highlighter: highlightjs
+:keywords: openapi, rest, Key Connect API 
+:specDir: 
+:snippetDir: 
+:generator-template: v1 2019-12-20
+:info-url: https://www.manthanhd.com
+:app-name: Key Connect API
+
+[abstract]
+.Abstract
+Blockchain access made simple
+
+
+// markup not found, no include::{specDir}intro.adoc[opts=optional]
+
+
+
+== Endpoints
+
+
+[.Accounts]
+=== Accounts
+
+
+[.fundAccount]
+==== fundAccount
+    
+`POST /v1/blockchains/{chainId}/accounts/{accountId}/fund`
+
+Funds the given account if funding is available for the specified network.
+
+===== Description 
+
+Uses the blockchain funding APIs to fund a given account.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+| ID of the block chain  
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+|===         
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 202
+| Funding request was accepted, it will be fulfilled momentarily.
+|  <<>>
+
+
+| 400
+| Invalid funding request
+|  <<ErrorResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/fund/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getAccountInfo]
+==== getAccountInfo
+    
+`GET /v1/blockchains/{chainId}/accounts/{accountId}`
+
+Returns account / wallet information for the provided `chainId` representing the blockchain.
+
+===== Description 
+
+Gets account / wallet information like `balance`, `lastTransactionId` etc of the specified blockchain identified by `chainId`.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+| ID of the block chain  
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountInfo>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountInfo>>
+
+
+| 400
+| Invalid account address
+|  <<InvalidAccountAddressError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getAccountPayments]
+==== getAccountPayments
+    
+`GET /v1/blockchains/{chainId}/accounts/{accountId}/payments`
+
+Returns paginated list of payments.
+
+===== Description 
+
+Gets payments for given `accountId` on a given blockchain identified by the `chainId` parameter. Return the `cursor` value in the next call to get the next page.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| cursor 
+| Cursor representing position among pages. Pass the cursor from previous get payments response to get the next page.  
+| - 
+| null 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountPayments>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountPayments>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/payments/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getAccountTransactions]
+==== getAccountTransactions
+    
+`GET /v1/blockchains/{chainId}/accounts/{accountId}/transactions`
+
+Returns paginated list of transactions.
+
+===== Description 
+
+Gets transactions for given `accountId` on a given blockchain identified by the `chainId` parameter. Return the `cursor` value in the next call to get the next page.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| cursor 
+| Cursor representing position among pages. Pass the cursor from previous get transactions response to get the next page.  
+| - 
+| null 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountTransactions>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountTransactions>>
+
+
+| 400
+| Bad request
+|  <<ErrorResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/transactions/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getBlockchainsAccounts]
+==== getBlockchainsAccounts
+    
+`POST /v1/batch/blockchains/accounts/info`
+
+Gets account details of all specified accounts
+
+===== Description 
+
+Batch call that returns details of all accounts in the request across all specified blockchains.
+
+
+// markup not found, no include::{specDir}v1/batch/blockchains/accounts/info/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| AccountsInfoRequest 
+| List of accounts with their chainIds to get info for <<AccountsInfoRequest>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+| Blockchain network to get the status from.  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<AccountsInfoResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<AccountsInfoResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/batch/blockchains/accounts/info/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/batch/blockchains/accounts/info/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/batch/blockchains/accounts/info/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/batch/blockchains/accounts/info/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Batch]
+=== Batch
+
+
+[.getBlockchainsAccounts]
+==== getBlockchainsAccounts
+    
+`POST /v1/batch/blockchains/accounts/info`
+
+Gets account details of all specified accounts
+
+===== Description 
+
+Batch call that returns details of all accounts in the request across all specified blockchains.
+
+
+// markup not found, no include::{specDir}v1/batch/blockchains/accounts/info/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| AccountsInfoRequest 
+| List of accounts with their chainIds to get info for <<AccountsInfoRequest>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+| Blockchain network to get the status from.  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<AccountsInfoResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<AccountsInfoResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/batch/blockchains/accounts/info/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/batch/blockchains/accounts/info/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/batch/blockchains/accounts/info/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/batch/blockchains/accounts/info/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Blockchains]
+=== Blockchains
+
+
+[.fundAccount]
+==== fundAccount
+    
+`POST /v1/blockchains/{chainId}/accounts/{accountId}/fund`
+
+Funds the given account if funding is available for the specified network.
+
+===== Description 
+
+Uses the blockchain funding APIs to fund a given account.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+| ID of the block chain  
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+|===         
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 202
+| Funding request was accepted, it will be fulfilled momentarily.
+|  <<>>
+
+
+| 400
+| Invalid funding request
+|  <<ErrorResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/fund/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.generateXrpTransaction]
+==== generateXrpTransaction
+    
+`GET /v1/blockchains/xrp/generator/payment`
+
+Generates a transaction as a payment.
+
+===== Description 
+
+Helper method to generate a transaction object for the purpose of a payment between the source account identified by `sourceAccount` and destination account idenfied by `destinationAccount` for the value of `amount`.
+
+
+// markup not found, no include::{specDir}v1/blockchains/xrp/generator/payment/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| sourceAccount 
+| Source account  
+| X 
+| null 
+|  
+
+| destinationAccount 
+| Destination account  
+| X 
+| null 
+|  
+
+| destinationTag 
+| Destination tag  
+| - 
+| null 
+|  
+
+| amount 
+| Payment amount in drops  
+| X 
+| null 
+|  
+
+| fee 
+| Fee to the ledger in drops. If this field is omitted, then &#x60;network&#x60; must be specified.  
+| - 
+| null 
+|  
+
+| network 
+|  Blockchain network to get the account info from. For XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. This field is required if &#x60;fee&#x60; is not specified in order to dynamically obtain the fee from the network.   
+| - 
+| mainnet 
+|  
+
+|===         
+
+
+===== Return Type
+
+
+<<Object>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<Object>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/xrp/generator/payment/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/xrp/generator/payment/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/xrp/generator/payment/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/xrp/generator/payment/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getAccountInfo]
+==== getAccountInfo
+    
+`GET /v1/blockchains/{chainId}/accounts/{accountId}`
+
+Returns account / wallet information for the provided `chainId` representing the blockchain.
+
+===== Description 
+
+Gets account / wallet information like `balance`, `lastTransactionId` etc of the specified blockchain identified by `chainId`.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+| ID of the block chain  
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountInfo>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountInfo>>
+
+
+| 400
+| Invalid account address
+|  <<InvalidAccountAddressError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getAccountPayments]
+==== getAccountPayments
+    
+`GET /v1/blockchains/{chainId}/accounts/{accountId}/payments`
+
+Returns paginated list of payments.
+
+===== Description 
+
+Gets payments for given `accountId` on a given blockchain identified by the `chainId` parameter. Return the `cursor` value in the next call to get the next page.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| cursor 
+| Cursor representing position among pages. Pass the cursor from previous get payments response to get the next page.  
+| - 
+| null 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountPayments>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountPayments>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/payments/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getAccountTransactions]
+==== getAccountTransactions
+    
+`GET /v1/blockchains/{chainId}/accounts/{accountId}/transactions`
+
+Returns paginated list of transactions.
+
+===== Description 
+
+Gets transactions for given `accountId` on a given blockchain identified by the `chainId` parameter. Return the `cursor` value in the next call to get the next page.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| cursor 
+| Cursor representing position among pages. Pass the cursor from previous get transactions response to get the next page.  
+| - 
+| null 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountTransactions>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountTransactions>>
+
+
+| 400
+| Bad request
+|  <<ErrorResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/transactions/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getBlockchainStatus]
+==== getBlockchainStatus
+    
+`GET /v1/blockchains/{chainId}/status`
+
+Returns the status of the provided blockchain.
+
+===== Description 
+
+Gets status of the provided blockchain identified by `chainId`.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/status/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+| ID of the block chain  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+| Blockchain network to get the status from.  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainStatus>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainStatus>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/status/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/status/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/status/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/status/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getBlockchainsAccounts]
+==== getBlockchainsAccounts
+    
+`POST /v1/batch/blockchains/accounts/info`
+
+Gets account details of all specified accounts
+
+===== Description 
+
+Batch call that returns details of all accounts in the request across all specified blockchains.
+
+
+// markup not found, no include::{specDir}v1/batch/blockchains/accounts/info/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| AccountsInfoRequest 
+| List of accounts with their chainIds to get info for <<AccountsInfoRequest>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+| Blockchain network to get the status from.  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<AccountsInfoResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<AccountsInfoResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/batch/blockchains/accounts/info/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/batch/blockchains/accounts/info/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/batch/blockchains/accounts/info/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/batch/blockchains/accounts/info/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getBlockchainsStatus]
+==== getBlockchainsStatus
+    
+`GET /v1/blockchains/status`
+
+Gets a list of all supported blockchains and their statuses.
+
+===== Description 
+
+Key Connect server keeps track of the individual status of the supported blockchains. Use this API to check the blockchain statuses.
+
+
+// markup not found, no include::{specDir}v1/blockchains/status/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<AvailableBlockchains>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<AvailableBlockchains>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/status/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/status/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/status/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/status/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getFee]
+==== getFee
+    
+`GET /v1/blockchains/{chainId}/fee`
+
+Returns the blockchain transaction fee.
+
+===== Description 
+
+Gets fee of the provided blockchain identified by `chainId`.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/fee/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+| ID of the block chain  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+| Blockchain network to get the status from.  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainFee>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainFee>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/fee/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/fee/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/fee/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/fee/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getTransaction]
+==== getTransaction
+    
+`GET /v1/blockchains/{chainId}/transactions/{hash}`
+
+Get a single transaction object by its provided `hash` on the specified `chainId`.
+
+===== Description 
+
+Returned transaction object might be in greater detail than the one provided in the list.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/transactions/\{hash\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+| hash 
+| Hash of the transaction to lookup  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountTransaction>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountTransaction>>
+
+
+| 404
+| Transaction not found
+|  <<TransactionNotFoundError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/transactions/\{hash\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/transactions/\{hash\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/transactions/{hash}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/transactions/\{hash\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.submitTransaction]
+==== submitTransaction
+    
+`POST /v1/blockchains/{chainId}/transactions`
+
+Submit a transaction to the blockchain.
+
+===== Description 
+
+Provided transaction object is submitted directly to the blockchain identified by `chainId` as is.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/transactions/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| SubmitTransactionRequest 
+| Request payload containing the transaction to submit to specified &#x60;chainId&#x60;. <<SubmitTransactionRequest>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<SubmitTransactionResult>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 202
+| Accepted
+|  <<SubmitTransactionResult>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/transactions/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/transactions/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/transactions/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/transactions/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Funding]
+=== Funding
+
+
+[.fundAccount]
+==== fundAccount
+    
+`POST /v1/blockchains/{chainId}/accounts/{accountId}/fund`
+
+Funds the given account if funding is available for the specified network.
+
+===== Description 
+
+Uses the blockchain funding APIs to fund a given account.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+| ID of the block chain  
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+|===         
+
+
+===== Return Type
+
+
+
+-
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 202
+| Funding request was accepted, it will be fulfilled momentarily.
+|  <<>>
+
+
+| 400
+| Invalid funding request
+|  <<ErrorResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/fund/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/fund/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Generator]
+=== Generator
+
+
+[.generateXrpTransaction]
+==== generateXrpTransaction
+    
+`GET /v1/blockchains/xrp/generator/payment`
+
+Generates a transaction as a payment.
+
+===== Description 
+
+Helper method to generate a transaction object for the purpose of a payment between the source account identified by `sourceAccount` and destination account idenfied by `destinationAccount` for the value of `amount`.
+
+
+// markup not found, no include::{specDir}v1/blockchains/xrp/generator/payment/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| sourceAccount 
+| Source account  
+| X 
+| null 
+|  
+
+| destinationAccount 
+| Destination account  
+| X 
+| null 
+|  
+
+| destinationTag 
+| Destination tag  
+| - 
+| null 
+|  
+
+| amount 
+| Payment amount in drops  
+| X 
+| null 
+|  
+
+| fee 
+| Fee to the ledger in drops. If this field is omitted, then &#x60;network&#x60; must be specified.  
+| - 
+| null 
+|  
+
+| network 
+|  Blockchain network to get the account info from. For XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. This field is required if &#x60;fee&#x60; is not specified in order to dynamically obtain the fee from the network.   
+| - 
+| mainnet 
+|  
+
+|===         
+
+
+===== Return Type
+
+
+<<Object>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<Object>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/xrp/generator/payment/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/xrp/generator/payment/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/xrp/generator/payment/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/xrp/generator/payment/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Markets]
+=== Markets
+
+
+[.getAggregatedOrderBook]
+==== getAggregatedOrderBook
+    
+`GET /v1/markets/{base}/{counter}/orderbook`
+
+Get aggregated order book for the provided base and counter
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}v1/markets/\{base\}/\{counter\}/orderbook/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| base 
+| Base currency  
+| X 
+| null 
+|  
+
+| counter 
+| Counter currency  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<OrderBook>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<OrderBook>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/markets/\{base\}/\{counter\}/orderbook/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/markets/\{base\}/\{counter\}/orderbook/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/markets/{base}/{counter}/orderbook/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/markets/\{base\}/\{counter\}/orderbook/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getAvailableMarkets]
+==== getAvailableMarkets
+    
+`GET /v1/markets`
+
+Get available markets
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}v1/markets/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<MarketsResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<MarketsResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/markets/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/markets/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/markets/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/markets/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getExchangeOrderBook]
+==== getExchangeOrderBook
+    
+`GET /v1/markets/{base}/{counter}/exchanges/{exchange}/orderbook`
+
+Get order book for the provided base and counter at specified exchange
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}v1/markets/\{base\}/\{counter\}/exchanges/\{exchange\}/orderbook/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| base 
+| Base currency  
+| X 
+| null 
+|  
+
+| counter 
+| Counter currency  
+| X 
+| null 
+|  
+
+| exchange 
+| Exchange name  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<OrderBook>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<OrderBook>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/markets/\{base\}/\{counter\}/exchanges/\{exchange\}/orderbook/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/markets/\{base\}/\{counter\}/exchanges/\{exchange\}/orderbook/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/markets/{base}/{counter}/exchanges/{exchange}/orderbook/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/markets/\{base\}/\{counter\}/exchanges/\{exchange\}/orderbook/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Payments]
+=== Payments
+
+
+[.getAccountPayments]
+==== getAccountPayments
+    
+`GET /v1/blockchains/{chainId}/accounts/{accountId}/payments`
+
+Returns paginated list of payments.
+
+===== Description 
+
+Gets payments for given `accountId` on a given blockchain identified by the `chainId` parameter. Return the `cursor` value in the next call to get the next page.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| cursor 
+| Cursor representing position among pages. Pass the cursor from previous get payments response to get the next page.  
+| - 
+| null 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountPayments>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountPayments>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/payments/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/payments/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Rates]
+=== Rates
+
+
+[.getRate]
+==== getRate
+    
+`GET /v1/rates/{base}/{counter}`
+
+Gets the currency conversion rate for the provided base and counter currency.
+
+===== Description 
+
+Returns the applicable rate to convert between the provided base and counter currency.
+
+
+// markup not found, no include::{specDir}v1/rates/\{base\}/\{counter\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| base 
+| Base currency  
+| X 
+| null 
+|  
+
+| counter 
+| Counter currency  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<RateResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<RateResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/rates/\{base\}/\{counter\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/rates/\{base\}/\{counter\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/rates/{base}/{counter}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/rates/\{base\}/\{counter\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Server]
+=== Server
+
+
+[.getServerStatus]
+==== getServerStatus
+    
+`GET /v1/server/status`
+
+Gets the Key Connect server status.
+
+===== Description 
+
+Gets the Key Connect server status along with any error information.
+
+
+// markup not found, no include::{specDir}v1/server/status/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<ServerStatusResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<ServerStatusResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/server/status/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/server/status/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/server/status/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/server/status/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Status]
+=== Status
+
+
+[.getBlockchainStatus]
+==== getBlockchainStatus
+    
+`GET /v1/blockchains/{chainId}/status`
+
+Returns the status of the provided blockchain.
+
+===== Description 
+
+Gets status of the provided blockchain identified by `chainId`.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/status/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+| ID of the block chain  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+| Blockchain network to get the status from.  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainStatus>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainStatus>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/status/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/status/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/status/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/status/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getBlockchainsStatus]
+==== getBlockchainsStatus
+    
+`GET /v1/blockchains/status`
+
+Gets a list of all supported blockchains and their statuses.
+
+===== Description 
+
+Key Connect server keeps track of the individual status of the supported blockchains. Use this API to check the blockchain statuses.
+
+
+// markup not found, no include::{specDir}v1/blockchains/status/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<AvailableBlockchains>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<AvailableBlockchains>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/status/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/status/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/status/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/status/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getServerStatus]
+==== getServerStatus
+    
+`GET /v1/server/status`
+
+Gets the Key Connect server status.
+
+===== Description 
+
+Gets the Key Connect server status along with any error information.
+
+
+// markup not found, no include::{specDir}v1/server/status/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<ServerStatusResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<ServerStatusResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/server/status/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/server/status/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/server/status/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/server/status/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Transactions]
+=== Transactions
+
+
+[.getAccountTransactions]
+==== getAccountTransactions
+    
+`GET /v1/blockchains/{chainId}/accounts/{accountId}/transactions`
+
+Returns paginated list of transactions.
+
+===== Description 
+
+Gets transactions for given `accountId` on a given blockchain identified by the `chainId` parameter. Return the `cursor` value in the next call to get the next page.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+| accountId 
+| Identifier representing the account. This is most likely the wallet address.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| cursor 
+| Cursor representing position among pages. Pass the cursor from previous get transactions response to get the next page.  
+| - 
+| null 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountTransactions>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountTransactions>>
+
+
+| 400
+| Bad request
+|  <<ErrorResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/accounts/{accountId}/transactions/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/accounts/\{accountId\}/transactions/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getTransaction]
+==== getTransaction
+    
+`GET /v1/blockchains/{chainId}/transactions/{hash}`
+
+Get a single transaction object by its provided `hash` on the specified `chainId`.
+
+===== Description 
+
+Returned transaction object might be in greater detail than the one provided in the list.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/transactions/\{hash\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+| hash 
+| Hash of the transaction to lookup  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+| fiat 
+| Used to provide equivalent value in specified fiat  
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<BlockchainAccountTransaction>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| OK
+|  <<BlockchainAccountTransaction>>
+
+
+| 404
+| Transaction not found
+|  <<TransactionNotFoundError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/transactions/\{hash\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/transactions/\{hash\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/transactions/{hash}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/transactions/\{hash\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.submitTransaction]
+==== submitTransaction
+    
+`POST /v1/blockchains/{chainId}/transactions`
+
+Submit a transaction to the blockchain.
+
+===== Description 
+
+Provided transaction object is submitted directly to the blockchain identified by `chainId` as is.
+
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/transactions/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| chainId 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| SubmitTransactionRequest 
+| Request payload containing the transaction to submit to specified &#x60;chainId&#x60;. <<SubmitTransactionRequest>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| network 
+|  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint.   
+| - 
+| mainnet 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<SubmitTransactionResult>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 202
+| Accepted
+|  <<SubmitTransactionResult>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/transactions/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}v1/blockchains/\{chainId\}/transactions/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :v1/blockchains/{chainId}/transactions/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}v1/blockchains/\{chainId\}/transactions/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[#models]
+== Models
+
+
+[#AccountsInfoRequest]
+=== _AccountsInfoRequest_ 
+
+
+
+[.fields-AccountsInfoRequest]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| accounts 
+|  
+| List  of <<AccountsInfoRequestItem>> 
+| 
+|  
+
+|===
+
+
+[#AccountsInfoRequestItem]
+=== _AccountsInfoRequestItem_ 
+
+
+
+[.fields-AccountsInfoRequestItem]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| chainId 
+| X 
+| String  
+| ID of the block chain
+|  _Enum:_ xrp, eth, 
+
+| network 
+|  
+| String  
+|  Blockchain network to get the account info from. For XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. This field is required if &#x60;fee&#x60; is not specified in order to dynamically obtain the fee from the network. 
+|  
+
+| accountId 
+| X 
+| String  
+| Identifier representing the account. This is most likely the wallet address.
+|  
+
+|===
+
+
+[#AccountsInfoResponse]
+=== _AccountsInfoResponse_ 
+
+
+
+[.fields-AccountsInfoResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| network 
+|  
+| String  
+| 
+|  
+
+| accounts 
+|  
+| List  of <<BlockchainAccountInfo>> 
+| 
+|  
+
+|===
+
+
+[#AvailableBlockchains]
+=== _AvailableBlockchains_ 
+
+List of available blockchains and their statuses
+
+[.fields-AvailableBlockchains]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| blockchains 
+|  
+| List  of <<BlockchainStatus>> 
+| 
+|  
+
+|===
+
+
+[#BlockchainAccountInfo]
+=== _BlockchainAccountInfo_ 
+
+Represents information regarding a blockchain wallet / account.
+
+[.fields-BlockchainAccountInfo]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| chainId 
+|  
+| String  
+| 
+|  _Enum:_ xrp, eth, 
+
+| network 
+|  
+| String  
+| 
+|  
+
+| server 
+|  
+| String  
+| 
+|  
+
+| accountId 
+|  
+| String  
+| 
+|  
+
+| balance 
+|  
+| CurrencyValue  
+| 
+|  
+
+| value 
+|  
+| GenericCurrencyValue  
+| 
+|  
+
+| subAccounts 
+|  
+| List  of <<SubAccountInfo>> 
+| List of sub accounts and their balances. ERC20 tokens and their balances in case of ethereum.
+|  
+
+| lastTransactionId 
+|  
+| String  
+| 
+|  
+
+| nonce 
+|  
+| String  
+| Current ledger nonce or index
+|  
+
+| errors 
+|  
+| List  of <<ServerErrorObject>> 
+| 
+|  
+
+|===
+
+
+[#BlockchainAccountPaymentItem]
+=== _BlockchainAccountPaymentItem_ 
+
+
+
+[.fields-BlockchainAccountPaymentItem]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| status 
+|  
+| String  
+| One of &#x60;success&#x60;, &#x60;failure&#x60; or &#x60;pending&#x60; in most cases. In case the server returns unusual status, this attribute will reflect the raw value.
+|  
+
+| sourceAccount 
+|  
+| String  
+| 
+|  
+
+| destinationAccount 
+|  
+| String  
+| 
+|  
+
+| destinationTag 
+|  
+| String  
+| 
+|  
+
+| fee 
+|  
+| CurrencyValue  
+| 
+|  
+
+| amount 
+|  
+| CurrencyValue  
+| 
+|  
+
+| value 
+|  
+| GenericCurrencyValue  
+| 
+|  
+
+| hash 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#BlockchainAccountPayments]
+=== _BlockchainAccountPayments_ 
+
+
+
+[.fields-BlockchainAccountPayments]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| chainId 
+|  
+| String  
+| 
+|  _Enum:_ xrp, eth, 
+
+| network 
+|  
+| String  
+| 
+|  
+
+| server 
+|  
+| String  
+| 
+|  
+
+| accountId 
+|  
+| String  
+| 
+|  
+
+| cursor 
+|  
+| String  
+| Format varies by the blockchain. For XRP, the value of &#x60;cursor&#x60; will be the &#x60;ledger:seq&#x60; from the marker object. This value is null when there are no more pages.
+|  
+
+| payments 
+|  
+| List  of <<BlockchainAccountPaymentItem>> 
+| 
+|  
+
+|===
+
+
+[#BlockchainAccountTransaction]
+=== _BlockchainAccountTransaction_ 
+
+Represents a blockchain account transaction.
+
+[.fields-BlockchainAccountTransaction]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| chainId 
+|  
+| String  
+| 
+|  _Enum:_ xrp, eth, 
+
+| network 
+|  
+| String  
+| 
+|  
+
+| server 
+|  
+| String  
+| 
+|  
+
+| transaction 
+|  
+| BlockchainAccountTransactionItem  
+| 
+|  
+
+|===
+
+
+[#BlockchainAccountTransactionItem]
+=== _BlockchainAccountTransactionItem_ 
+
+Individual transaction for a specific blockchain account / wallet.
+
+[.fields-BlockchainAccountTransactionItem]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| status 
+|  
+| String  
+| One of &#x60;success&#x60;, &#x60;failure&#x60; or &#x60;pending&#x60; in most cases. In case the server returns unusual status, this attribute will reflect the raw value.
+|  
+
+| type 
+|  
+| String  
+| 
+|  
+
+| sourceAccount 
+|  
+| String  
+| 
+|  
+
+| destinationAccount 
+|  
+| String  
+| 
+|  
+
+| destinationTag 
+|  
+| String  
+| 
+|  
+
+| fee 
+|  
+| CurrencyValue  
+| 
+|  
+
+| amount 
+|  
+| CurrencyValue  
+| 
+|  
+
+| value 
+|  
+| GenericCurrencyValue  
+| 
+|  
+
+| hash 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#BlockchainAccountTransactions]
+=== _BlockchainAccountTransactions_ 
+
+List of transactions for a specified blockchain account / wallet within the specified &#x60;cursor&#x60;.
+
+[.fields-BlockchainAccountTransactions]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| chainId 
+|  
+| String  
+| 
+|  _Enum:_ xrp, eth, 
+
+| network 
+|  
+| String  
+| 
+|  
+
+| server 
+|  
+| String  
+| 
+|  
+
+| accountId 
+|  
+| String  
+| 
+|  
+
+| cursor 
+|  
+| String  
+| Format varies by the blockchain. For XRP, the value of &#x60;cursor&#x60; will be the &#x60;ledger:seq&#x60; from the marker object. This value is null when there are no more pages.
+|  
+
+| transactions 
+|  
+| List  of <<BlockchainAccountTransactionItem>> 
+| 
+|  
+
+|===
+
+
+[#BlockchainFee]
+=== _BlockchainFee_ 
+
+Blockchain fee.
+
+[.fields-BlockchainFee]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| chainId 
+|  
+| String  
+| 
+|  _Enum:_ xrp, eth, 
+
+| network 
+|  
+| String  
+| 
+|  
+
+| server 
+|  
+| String  
+| 
+|  
+
+| fee 
+|  
+| CurrencyValue  
+| 
+|  
+
+|===
+
+
+[#BlockchainNetwork]
+=== _BlockchainNetwork_ 
+
+Blockchain network object identifying the group and the list of servers under this group.
+
+[.fields-BlockchainNetwork]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| group 
+|  
+| String  
+| 
+|  
+
+| servers 
+|  
+| List  of <<BlockchainNetworkServerStatus>> 
+| 
+|  
+
+|===
+
+
+[#BlockchainNetworkServerStatus]
+=== _BlockchainNetworkServerStatus_ 
+
+Represents status of a blockchain network.
+
+[.fields-BlockchainNetworkServerStatus]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| host 
+|  
+| String  
+| 
+|  
+
+| status 
+|  
+| String  
+| 
+|  _Enum:_ healthy, unhealthy, 
+
+| lastCheck 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#BlockchainStatus]
+=== _BlockchainStatus_ 
+
+Represents a blockchain and its status.
+
+[.fields-BlockchainStatus]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| chainId 
+|  
+| String  
+| 
+|  
+
+| networks 
+|  
+| List  of <<BlockchainNetwork>> 
+| 
+|  
+
+|===
+
+
+[#BlockchainStatusResponse]
+=== _BlockchainStatusResponse_ 
+
+Represents the status of the block chain. This object is cached as per the &#x60;lastCheck&#x60; attribute.
+
+[.fields-BlockchainStatusResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| status 
+|  
+| String  
+| Status of the block chain
+|  _Enum:_ connected, disconnected, 
+
+| lastCheck 
+|  
+| String  
+| UTC timestamp representing when the status was last checked
+|  
+
+|===
+
+
+[#CurrencyValue]
+=== _CurrencyValue_ 
+
+Simple object representing &#x60;amount&#x60; as string in a specific &#x60;currency&#x60;.
+
+[.fields-CurrencyValue]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| amount 
+| X 
+| String  
+| 
+|  
+
+| issuer 
+|  
+| String  
+| 
+|  
+
+| currency 
+| X 
+| String  
+| 
+|  _Enum:_ xrp, drops, eth, gas, 
+
+|===
+
+
+[#ErrorResponse]
+=== _ErrorResponse_ 
+
+
+
+[.fields-ErrorResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| timestamp 
+|  
+| BigDecimal  
+| Unix timestamp indicating when the error occurred
+|  
+
+| status 
+|  
+| Integer  
+| HTTP status code of the error
+|  
+
+| error 
+|  
+| String  
+| HTTP status description
+|  
+
+| message 
+|  
+| String  
+| Error message describing the error in detail
+|  
+
+| path 
+|  
+| String  
+| The endpoint that caused this error
+|  
+
+|===
+
+
+[#ExceptionalResponse]
+=== _ExceptionalResponse_ 
+
+
+
+[.fields-ExceptionalResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| timestamp 
+|  
+| BigDecimal  
+| 
+|  
+
+| status 
+|  
+| Integer  
+| 
+|  
+
+| error 
+|  
+| String  
+| 
+|  
+
+| message 
+|  
+| String  
+| 
+|  
+
+| path 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#GenericCurrencyValue]
+=== _GenericCurrencyValue_ 
+
+
+
+[.fields-GenericCurrencyValue]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| amount 
+|  
+| String  
+| 
+|  
+
+| issuer 
+|  
+| String  
+| 
+|  
+
+| currency 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#InvalidAccountAddressError]
+=== _InvalidAccountAddressError_ 
+
+
+
+[.fields-InvalidAccountAddressError]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| timestamp 
+|  
+| BigDecimal  
+| Indicates when the error occurred
+|  
+
+| status 
+|  
+| Integer  
+| HTTP status code of the error
+|  
+
+| error 
+|  
+| String  
+| HTTP status description
+|  
+
+| message 
+|  
+| String  
+| Error message describing the error in detail
+|  
+
+| path 
+|  
+| String  
+| The endpoint that caused this error
+|  
+
+|===
+
+
+[#InvalidCursorError]
+=== _InvalidCursorError_ 
+
+
+
+[.fields-InvalidCursorError]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| timestamp 
+|  
+| BigDecimal  
+| Indicates when the error occurred
+|  
+
+| status 
+|  
+| Integer  
+| HTTP status code of the error
+|  
+
+| error 
+|  
+| String  
+| HTTP status description
+|  
+
+| message 
+|  
+| String  
+| Error message describing the error in detail
+|  
+
+| path 
+|  
+| String  
+| The endpoint that caused this error
+|  
+
+|===
+
+
+[#MarketsItem]
+=== _MarketsItem_ 
+
+Object describing a specific market
+
+[.fields-MarketsItem]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| Name of the market, typically name of the exchange
+|  
+
+| status 
+|  
+| String  
+| Market status
+|  _Enum:_ connected, disconnected, 
+
+| currencies 
+|  
+| List  of <<string>> 
+| Supported list of currencies for this market
+|  
+
+|===
+
+
+[#MarketsResponse]
+=== _MarketsResponse_ 
+
+Object containing list of available markets
+
+[.fields-MarketsResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| markets 
+|  
+| List  of <<MarketsItem>> 
+| List of market objects
+|  
+
+|===
+
+
+[#Order]
+=== _Order_ 
+
+Describes order at an exchange
+
+[.fields-Order]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| type 
+|  
+| String  
+| Type of the order
+|  _Enum:_ BID, ASK, EXIT_BID, EXIT_ASK, 
+
+| amount 
+|  
+| BigDecimal  
+| Order amount
+|  
+
+| id 
+|  
+| String  
+| Order ID
+|  
+
+| timestamp 
+|  
+| String  
+| Order timestamp (ms since epoch)
+|  
+
+| price 
+|  
+| BigDecimal  
+| Order price
+|  
+
+|===
+
+
+[#OrderBook]
+=== _OrderBook_ 
+
+Represents an order book containing list of asks and bids
+
+[.fields-OrderBook]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| base 
+|  
+| String  
+| Base currency
+|  
+
+| counter 
+|  
+| String  
+| Counter currency
+|  
+
+| exchanges 
+|  
+| List  of <<string>> 
+| Name of the exchanges (multiple if this is an aggregated orderbook)
+|  
+
+| timestamp 
+|  
+| String  
+| Order timestamp (ms since epoch)
+|  
+
+| asks 
+|  
+| List  of <<Order>> 
+| Lists of asks
+|  
+
+| bids 
+|  
+| List  of <<Order>> 
+| Lists of bids
+|  
+
+|===
+
+
+[#Rate]
+=== _Rate_ 
+
+
+
+[.fields-Rate]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| base 
+|  
+| String  
+| Base currency
+|  
+
+| counter 
+|  
+| String  
+| Counter currency
+|  
+
+| price 
+|  
+| String  
+| Rate to convert the base currency into the counter currency
+|  
+
+|===
+
+
+[#RateResponse]
+=== _RateResponse_ 
+
+
+
+[.fields-RateResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| avg 
+|  
+| Rate  
+| 
+|  
+
+|===
+
+
+[#ServerErrorObject]
+=== _ServerErrorObject_ 
+
+Represents information regarding a error.
+
+[.fields-ServerErrorObject]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| category 
+|  
+| String  
+| Error category
+|  _Enum:_ blockchain, database, internal, 
+
+| severity 
+|  
+| String  
+| Error severity
+|  _Enum:_ critical, high, medium, low, warning, info, 
+
+| message 
+|  
+| String  
+| Error message
+|  
+
+|===
+
+
+[#ServerStatusResponse]
+=== _ServerStatusResponse_ 
+
+Represents the status of the Key Connect server.
+
+[.fields-ServerStatusResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| status 
+|  
+| String  
+| Status of the server
+|  _Enum:_ healthy, unhealthy, 
+
+| errors 
+|  
+| List  of <<ServerStatusResponse_errors>> 
+| Any server errors if the server is unhealthy
+|  
+
+|===
+
+
+[#ServerStatusResponseErrors]
+=== _ServerStatusResponseErrors_ 
+
+Array object
+
+[.fields-ServerStatusResponseErrors]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| category 
+|  
+| String  
+| Error category
+|  _Enum:_ blockchain, database, internal, 
+
+| severity 
+|  
+| String  
+| Error severity
+|  _Enum:_ critical, high, medium, low, warning, info, 
+
+| message 
+|  
+| String  
+| Error message
+|  
+
+|===
+
+
+[#SubAccountInfo]
+=== _SubAccountInfo_ 
+
+Represents a sub-account. ERC20 token account in case of ethereum.
+
+[.fields-SubAccountInfo]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| accountId 
+|  
+| String  
+| ID of the sub account. Contract hash in case of ethereum token.
+|  
+
+| balance 
+|  
+| GenericCurrencyValue  
+| 
+|  
+
+| value 
+|  
+| GenericCurrencyValue  
+| 
+|  
+
+|===
+
+
+[#SubmitTransactionRequest]
+=== _SubmitTransactionRequest_ 
+
+
+
+[.fields-SubmitTransactionRequest]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| transaction 
+|  
+| String  
+| The transaction blob as required by the blockchain you are submitting to.
+|  
+
+|===
+
+
+[#SubmitTransactionResult]
+=== _SubmitTransactionResult_ 
+
+Represents the result of the submission of a given blockchain transaction.
+
+[.fields-SubmitTransactionResult]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| chainId 
+|  
+| String  
+| 
+|  _Enum:_ xrp, eth, 
+
+| network 
+|  
+| String  
+| 
+|  
+
+| server 
+|  
+| String  
+| 
+|  
+
+| transaction 
+|  
+| BlockchainAccountTransactionItem  
+| 
+|  
+
+|===
+
+
+[#TransactionNotFoundError]
+=== _TransactionNotFoundError_ 
+
+
+
+[.fields-TransactionNotFoundError]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| timestamp 
+|  
+| BigDecimal  
+| Indicates when the error occurred
+|  
+
+| status 
+|  
+| Integer  
+| HTTP status code of the error
+|  
+
+| error 
+|  
+| String  
+| HTTP status description
+|  
+
+| message 
+|  
+| String  
+| Error message describing the error in detail
+|  
+
+| path 
+|  
+| String  
+| The endpoint that caused this error
+|  
+
+|===
+
+
+[#UnsupportedFundingBlockchainError]
+=== _UnsupportedFundingBlockchainError_ 
+
+
+
+[.fields-UnsupportedFundingBlockchainError]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| timestamp 
+|  
+| BigDecimal  
+| Indicates when the error occurred
+|  
+
+| status 
+|  
+| Integer  
+| HTTP status code of the error
+|  
+
+| error 
+|  
+| String  
+| HTTP status description
+|  
+
+| message 
+|  
+| String  
+| Error message describing the error in detail
+|  
+
+| path 
+|  
+| String  
+| The endpoint that caused this error
+|  
+
+|===
+
+
+[#UnsupportedFundingRequestError]
+=== _UnsupportedFundingRequestError_ 
+
+
+
+[.fields-UnsupportedFundingRequestError]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| timestamp 
+|  
+| BigDecimal  
+| Indicates when the error occurred
+|  
+
+| status 
+|  
+| Integer  
+| HTTP status code of the error
+|  
+
+| error 
+|  
+| String  
+| HTTP status description
+|  
+
+| message 
+|  
+| String  
+| Error message describing the error in detail
+|  
+
+| path 
+|  
+| String  
+| The endpoint that caused this error
+|  
+
+|===
+
+
