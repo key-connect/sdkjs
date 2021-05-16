@@ -13,40 +13,49 @@
 import { RequestFile } from './models';
 
 /**
-* Represents status of a blockchain network.
+* Object describing a specific market
 */
-export class BlockchainNetworkServerStatus {
-    'host'?: string;
-    'status'?: BlockchainNetworkServerStatus.StatusEnum;
-    'lastCheck'?: string;
+export class MarketsItem {
+    /**
+    * Name of the market, typically name of the exchange
+    */
+    'name'?: string;
+    /**
+    * Market status
+    */
+    'status'?: MarketsItem.StatusEnum;
+    /**
+    * Supported list of currencies for this market
+    */
+    'currencies'?: Array<string>;
 
     static discriminator: string | undefined = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
-            "name": "host",
-            "baseName": "host",
+            "name": "name",
+            "baseName": "name",
             "type": "string"
         },
         {
             "name": "status",
             "baseName": "status",
-            "type": "BlockchainNetworkServerStatus.StatusEnum"
+            "type": "MarketsItem.StatusEnum"
         },
         {
-            "name": "lastCheck",
-            "baseName": "lastCheck",
-            "type": "string"
+            "name": "currencies",
+            "baseName": "currencies",
+            "type": "Array<string>"
         }    ];
 
     static getAttributeTypeMap() {
-        return BlockchainNetworkServerStatus.attributeTypeMap;
+        return MarketsItem.attributeTypeMap;
     }
 }
 
-export namespace BlockchainNetworkServerStatus {
+export namespace MarketsItem {
     export enum StatusEnum {
-        Healthy = <any> 'healthy',
-        Unhealthy = <any> 'unhealthy'
+        Connected = <any> 'connected',
+        Disconnected = <any> 'disconnected'
     }
 }

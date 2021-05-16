@@ -46,7 +46,7 @@ export class BlockchainStatusResponse {
 
 export namespace BlockchainStatusResponse {
     export enum StatusEnum {
-        connected = <any> 'connected',
-        disconnected = <any> 'disconnected'
+        Connected = <any> 'connected',
+        Disconnected = <any> 'disconnected'
     }
 }

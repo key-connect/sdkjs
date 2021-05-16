@@ -53,8 +53,7 @@ export class BlockchainAccountTransaction {
 
 export namespace BlockchainAccountTransaction {
     export enum ChainIdEnum {
-        xrp = <any> 'xrp',
-        eth = <any> 'eth',
-        btc = <any> 'btc'
+        Xrp = <any> 'xrp',
+        Eth = <any> 'eth'
     }
 }

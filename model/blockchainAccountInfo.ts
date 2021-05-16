@@ -31,6 +31,10 @@ export class BlockchainAccountInfo {
     */
     'subAccounts'?: Array<SubAccountInfo>;
     'lastTransactionId'?: string;
+    /**
+    * Current ledger nonce or index
+    */
+    'nonce'?: string;
     'errors'?: Array<ServerErrorObject>;
 
     static discriminator: string | undefined = undefined;
@@ -77,6 +81,11 @@ export class BlockchainAccountInfo {
             "type": "string"
         },
         {
+            "name": "nonce",
+            "baseName": "nonce",
+            "type": "string"
+        },
+        {
             "name": "errors",
             "baseName": "errors",
             "type": "Array<ServerErrorObject>"
@@ -89,8 +98,7 @@ export class BlockchainAccountInfo {
 
 export namespace BlockchainAccountInfo {
     export enum ChainIdEnum {
-        xrp = <any> 'xrp',
-        eth = <any> 'eth',
-        btc = <any> 'btc'
+        Xrp = <any> 'xrp',
+        Eth = <any> 'eth'
     }
 }

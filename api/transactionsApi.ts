@@ -17,8 +17,10 @@ import http from 'http';
 /* tslint:disable:no-unused-locals */
 import { BlockchainAccountTransaction } from '../model/blockchainAccountTransaction';
 import { BlockchainAccountTransactions } from '../model/blockchainAccountTransactions';
+import { ErrorResponse } from '../model/errorResponse';
 import { SubmitTransactionRequest } from '../model/submitTransactionRequest';
 import { SubmitTransactionResult } from '../model/submitTransactionResult';
+import { TransactionNotFoundError } from '../model/transactionNotFoundError';
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
 
@@ -98,7 +100,7 @@ export class TransactionsApi {
      * @param cursor Cursor representing position among pages. Pass the cursor from previous get transactions response to get the next page.
      * @param fiat Used to provide equivalent value in specified fiat
      */
-    public async getAccountTransactions (chainId: 'xrp' | 'eth' | 'btc', accountId: string, network?: string, cursor?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountTransactions;  }> {
+    public async getAccountTransactions (chainId: 'xrp' | 'eth', accountId: string, network?: string, cursor?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountTransactions;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/accounts/{accountId}/transactions'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)))
             .replace('{' + 'accountId' + '}', encodeURIComponent(String(accountId)));
@@ -188,7 +190,7 @@ export class TransactionsApi {
      * @param network  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. 
      * @param fiat Used to provide equivalent value in specified fiat
      */
-    public async getTransaction (chainId: 'xrp' | 'eth' | 'btc', hash: string, network?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountTransaction;  }> {
+    public async getTransaction (chainId: 'xrp' | 'eth', hash: string, network?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountTransaction;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/transactions/{hash}'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)))
             .replace('{' + 'hash' + '}', encodeURIComponent(String(hash)));
@@ -273,7 +275,7 @@ export class TransactionsApi {
      * @param network  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. 
      * @param submitTransactionRequest Request payload containing the transaction to submit to specified &#x60;chainId&#x60;.
      */
-    public async submitTransaction (chainId: 'xrp' | 'eth' | 'btc', network?: string, submitTransactionRequest?: SubmitTransactionRequest, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: SubmitTransactionResult;  }> {
+    public async submitTransaction (chainId: 'xrp' | 'eth', network?: string, submitTransactionRequest?: SubmitTransactionRequest, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: SubmitTransactionResult;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/transactions'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)));
         let localVarQueryParameters: any = {};

@@ -53,8 +53,7 @@ export class SubmitTransactionResult {
 
 export namespace SubmitTransactionResult {
     export enum ChainIdEnum {
-        xrp = <any> 'xrp',
-        eth = <any> 'eth',
-        btc = <any> 'btc'
+        Xrp = <any> 'xrp',
+        Eth = <any> 'eth'
     }
 }

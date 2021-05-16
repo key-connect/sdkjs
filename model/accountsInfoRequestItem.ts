@@ -52,7 +52,7 @@ export class AccountsInfoRequestItem {
 
 export namespace AccountsInfoRequestItem {
     export enum ChainIdEnum {
-        xrp = <any> 'xrp',
-        eth = <any> 'eth'
+        Xrp = <any> 'xrp',
+        Eth = <any> 'eth'
     }
 }

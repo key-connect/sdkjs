@@ -65,8 +65,7 @@ export class BlockchainAccountPayments {
 
 export namespace BlockchainAccountPayments {
     export enum ChainIdEnum {
-        xrp = <any> 'xrp',
-        eth = <any> 'eth',
-        btc = <any> 'btc'
+        Xrp = <any> 'xrp',
+        Eth = <any> 'eth'
     }
 }

@@ -24,8 +24,11 @@ import { BlockchainAccountTransaction } from '../model/blockchainAccountTransact
 import { BlockchainAccountTransactions } from '../model/blockchainAccountTransactions';
 import { BlockchainFee } from '../model/blockchainFee';
 import { BlockchainStatus } from '../model/blockchainStatus';
+import { ErrorResponse } from '../model/errorResponse';
+import { InvalidAccountAddressError } from '../model/invalidAccountAddressError';
 import { SubmitTransactionRequest } from '../model/submitTransactionRequest';
 import { SubmitTransactionResult } from '../model/submitTransactionResult';
+import { TransactionNotFoundError } from '../model/transactionNotFoundError';
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
 
@@ -96,6 +99,86 @@ export class BlockchainsApi {
         this.interceptors.push(interceptor);
     }
 
+    /**
+     * Uses the blockchain funding APIs to fund a given account.
+     * @summary Funds the given account if funding is available for the specified network.
+     * @param chainId ID of the block chain
+     * @param accountId Identifier representing the account. This is most likely the wallet address.
+     * @param network  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. 
+     */
+    public async fundAccount (chainId: 'xrp' | 'eth', accountId: string, network?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+        const localVarPath = this.basePath + '/v1/blockchains/{chainId}/accounts/{accountId}/fund'
+            .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)))
+            .replace('{' + 'accountId' + '}', encodeURIComponent(String(accountId)));
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
+        const produces = ['application/json'];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
+        let localVarFormParams: any = {};
+
+        // verify required parameter 'chainId' is not null or undefined
+        if (chainId === null || chainId === undefined) {
+            throw new Error('Required parameter chainId was null or undefined when calling fundAccount.');
+        }
+
+        // verify required parameter 'accountId' is not null or undefined
+        if (accountId === null || accountId === undefined) {
+            throw new Error('Required parameter accountId was null or undefined when calling fundAccount.');
+        }
+
+        if (network !== undefined) {
+            localVarQueryParameters['network'] = ObjectSerializer.serialize(network, "string");
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+        };
+
+        let authenticationPromise = Promise.resolve();
+        authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
+            if (Object.keys(localVarFormParams).length) {
+                if (localVarUseFormData) {
+                    (<any>localVarRequestOptions).formData = localVarFormParams;
+                } else {
+                    localVarRequestOptions.form = localVarFormParams;
+                }
+            }
+            return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
+                localVarRequest(localVarRequestOptions, (error, response, body) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            resolve({ response: response, body: body });
+                        } else {
+                            reject(new HttpError(response, body, response.statusCode));
+                        }
+                    }
+                });
+            });
+        });
+    }
     /**
      * Helper method to generate a transaction object for the purpose of a payment between the source account identified by `sourceAccount` and destination account idenfied by `destinationAccount` for the value of `amount`.
      * @summary Generates a transaction as a payment.
@@ -211,7 +294,7 @@ export class BlockchainsApi {
      * @param network  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. 
      * @param fiat Used to provide equivalent value in specified fiat
      */
-    public async getAccountInfo (chainId: 'xrp' | 'eth' | 'btc', accountId: string, network?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountInfo;  }> {
+    public async getAccountInfo (chainId: 'xrp' | 'eth', accountId: string, network?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountInfo;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/accounts/{accountId}'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)))
             .replace('{' + 'accountId' + '}', encodeURIComponent(String(accountId)));
@@ -298,7 +381,7 @@ export class BlockchainsApi {
      * @param cursor Cursor representing position among pages. Pass the cursor from previous get payments response to get the next page.
      * @param fiat Used to provide equivalent value in specified fiat
      */
-    public async getAccountPayments (chainId: 'xrp' | 'eth' | 'btc', accountId: string, network?: string, cursor?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountPayments;  }> {
+    public async getAccountPayments (chainId: 'xrp' | 'eth', accountId: string, network?: string, cursor?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountPayments;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/accounts/{accountId}/payments'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)))
             .replace('{' + 'accountId' + '}', encodeURIComponent(String(accountId)));
@@ -389,7 +472,7 @@ export class BlockchainsApi {
      * @param cursor Cursor representing position among pages. Pass the cursor from previous get transactions response to get the next page.
      * @param fiat Used to provide equivalent value in specified fiat
      */
-    public async getAccountTransactions (chainId: 'xrp' | 'eth' | 'btc', accountId: string, network?: string, cursor?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountTransactions;  }> {
+    public async getAccountTransactions (chainId: 'xrp' | 'eth', accountId: string, network?: string, cursor?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountTransactions;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/accounts/{accountId}/transactions'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)))
             .replace('{' + 'accountId' + '}', encodeURIComponent(String(accountId)));
@@ -477,7 +560,7 @@ export class BlockchainsApi {
      * @param chainId ID of the block chain
      * @param network Blockchain network to get the status from.
      */
-    public async getBlockchainStatus (chainId: 'xrp' | 'eth' | 'btc', network?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainStatus;  }> {
+    public async getBlockchainStatus (chainId: 'xrp' | 'eth', network?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainStatus;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/status'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)));
         let localVarQueryParameters: any = {};
@@ -682,7 +765,7 @@ export class BlockchainsApi {
      * @param chainId ID of the block chain
      * @param network Blockchain network to get the status from.
      */
-    public async getFee (chainId: 'xrp' | 'eth' | 'btc', network?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainFee;  }> {
+    public async getFee (chainId: 'xrp' | 'eth', network?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainFee;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/fee'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)));
         let localVarQueryParameters: any = {};
@@ -758,7 +841,7 @@ export class BlockchainsApi {
      * @param network  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. 
      * @param fiat Used to provide equivalent value in specified fiat
      */
-    public async getTransaction (chainId: 'xrp' | 'eth' | 'btc', hash: string, network?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountTransaction;  }> {
+    public async getTransaction (chainId: 'xrp' | 'eth', hash: string, network?: string, fiat?: 'USD' | 'GBP' | 'EUR', options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: BlockchainAccountTransaction;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/transactions/{hash}'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)))
             .replace('{' + 'hash' + '}', encodeURIComponent(String(hash)));
@@ -843,7 +926,7 @@ export class BlockchainsApi {
      * @param network  Blockchain network to get the account info from. For example, for XRP this would be one of (testnet/devnet/mainnet). More information regarding what environments are available can be obtained from /v1/blockchains/{chainId}/status endpoint. 
      * @param submitTransactionRequest Request payload containing the transaction to submit to specified &#x60;chainId&#x60;.
      */
-    public async submitTransaction (chainId: 'xrp' | 'eth' | 'btc', network?: string, submitTransactionRequest?: SubmitTransactionRequest, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: SubmitTransactionResult;  }> {
+    public async submitTransaction (chainId: 'xrp' | 'eth', network?: string, submitTransactionRequest?: SubmitTransactionRequest, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: SubmitTransactionResult;  }> {
         const localVarPath = this.basePath + '/v1/blockchains/{chainId}/transactions'
             .replace('{' + 'chainId' + '}', encodeURIComponent(String(chainId)));
         let localVarQueryParameters: any = {};

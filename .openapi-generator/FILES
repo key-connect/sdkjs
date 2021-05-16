@@ -4,7 +4,9 @@ api/accountsApi.ts
 api/apis.ts
 api/batchApi.ts
 api/blockchainsApi.ts
+api/fundingApi.ts
 api/generatorApi.ts
+api/marketsApi.ts
 api/paymentsApi.ts
 api/ratesApi.ts
 api/serverApi.ts
@@ -27,9 +29,16 @@ model/blockchainNetworkServerStatus.ts
 model/blockchainStatus.ts
 model/blockchainStatusResponse.ts
 model/currencyValue.ts
+model/errorResponse.ts
 model/exceptionalResponse.ts
 model/genericCurrencyValue.ts
+model/invalidAccountAddressError.ts
+model/invalidCursorError.ts
+model/marketsItem.ts
+model/marketsResponse.ts
 model/models.ts
+model/order.ts
+model/orderBook.ts
 model/rate.ts
 model/rateResponse.ts
 model/serverErrorObject.ts
@@ -38,5 +47,8 @@ model/serverStatusResponseErrors.ts
 model/subAccountInfo.ts
 model/submitTransactionRequest.ts
 model/submitTransactionResult.ts
+model/transactionNotFoundError.ts
+model/unsupportedFundingBlockchainError.ts
+model/unsupportedFundingRequestError.ts
 package.json
 tsconfig.json

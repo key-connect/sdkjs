@@ -46,9 +46,9 @@ export class CurrencyValue {
 
 export namespace CurrencyValue {
     export enum CurrencyEnum {
-        xrp = <any> 'xrp',
-        drops = <any> 'drops',
-        eth = <any> 'eth',
-        gas = <any> 'gas'
+        Xrp = <any> 'xrp',
+        Drops = <any> 'drops',
+        Eth = <any> 'eth',
+        Gas = <any> 'gas'
     }
 }

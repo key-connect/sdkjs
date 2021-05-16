@@ -55,16 +55,16 @@ export class ServerErrorObject {
 
 export namespace ServerErrorObject {
     export enum CategoryEnum {
-        blockchain = <any> 'blockchain',
-        database = <any> 'database',
-        internal = <any> 'internal'
+        Blockchain = <any> 'blockchain',
+        Database = <any> 'database',
+        Internal = <any> 'internal'
     }
     export enum SeverityEnum {
-        critical = <any> 'critical',
-        high = <any> 'high',
-        medium = <any> 'medium',
-        low = <any> 'low',
-        warning = <any> 'warning',
-        info = <any> 'info'
+        Critical = <any> 'critical',
+        High = <any> 'high',
+        Medium = <any> 'medium',
+        Low = <any> 'low',
+        Warning = <any> 'warning',
+        Info = <any> 'info'
     }
 }

@@ -4,8 +4,12 @@ export * from './batchApi';
 import { BatchApi } from './batchApi';
 export * from './blockchainsApi';
 import { BlockchainsApi } from './blockchainsApi';
+export * from './fundingApi';
+import { FundingApi } from './fundingApi';
 export * from './generatorApi';
 import { GeneratorApi } from './generatorApi';
+export * from './marketsApi';
+import { MarketsApi } from './marketsApi';
 export * from './paymentsApi';
 import { PaymentsApi } from './paymentsApi';
 export * from './ratesApi';
@@ -27,4 +31,4 @@ export class HttpError extends Error {
 
 export { RequestFile } from '../model/models';
 
-export const APIS = [AccountsApi, BatchApi, BlockchainsApi, GeneratorApi, PaymentsApi, RatesApi, ServerApi, StatusApi, TransactionsApi];
+export const APIS = [AccountsApi, BatchApi, BlockchainsApi, FundingApi, GeneratorApi, MarketsApi, PaymentsApi, RatesApi, ServerApi, StatusApi, TransactionsApi];

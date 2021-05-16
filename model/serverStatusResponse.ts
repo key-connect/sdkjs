@@ -47,7 +47,7 @@ export class ServerStatusResponse {
 
 export namespace ServerStatusResponse {
     export enum StatusEnum {
-        healthy = <any> 'healthy',
-        unhealthy = <any> 'unhealthy'
+        Healthy = <any> 'healthy',
+        Unhealthy = <any> 'unhealthy'
     }
 }
